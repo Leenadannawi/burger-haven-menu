@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Burger Haven</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#fbfbfb;
+  --ink:#0f0f0f;
+  --muted:#5a5a5a;
+  --card:#eaffc7;
+  --radius:28px;
+  --shadow:0 14px 40px rgba(0,0,0,.08);
+  --shadow2:0 22px 70px rgba(0,0,0,.10);
+  --line:rgba(0,0,0,.08);
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:Inter,system-ui,sans-serif;
+  background:var(--bg);
+  color:var(--ink);
+  line-height:1.55;
+}
+img{display:block;max-width:100%}
+a{text-decoration:none;color:inherit}
+.container{
+  max-width:1200px;
+  margin:auto;
+  padding:80px 20px;
+}
+
+/* ---------- Sticky Header ---------- */
+.header-wrap{
+  position:sticky;
+  top:0;
+  z-index:50;
+  background:rgba(251,251,251,.86);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);
+}
+header{
+  max-width:1200px;
+  margin:auto;
+  padding:16px 20px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+}
+.brand{
+  font-weight:800;
+  display:flex;
+  gap:10px;
+  align-items:center;
+}
+.brand-badge{
+  width:34px;height:34px;
+  border-radius:999px;
+  border:2px solid var(--ink);
+  display:grid;
+  place-items:center;
+  font-weight:900;
+}
+nav{
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
+nav a{
+  font-weight:600;
+  font-size:14px;
+  color:var(--ink);
+  padding:10px 10px;
+  border-radius:999px;
+}
+nav a:hover{background:rgba(0,0,0,.04)}
+.nav-cta{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  padding:10px 14px;
+  border-radius:999px;
+  background:#25D366;
+  color:#0b1b10;
+  font-weight:800;
+  box-shadow:0 10px 26px rgba(37,211,102,.30);
+  white-space:nowrap;
+}
+
+/* ---------- Hero ---------- */
+.hero{
+  display:grid;
+  grid-template-columns:1.05fr .95fr;
+  gap:54px;
+  align-items:center;
+}
+.hero h1{
+  font-size:52px;
+  line-height:1.05;
+  margin-bottom:14px;
+}
+.hero p{
+  color:var(--muted);
+  max-width:560px;
+}
+.hero-actions{
+  margin-top:22px;
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+}
+.btn{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  padding:12px 18px;
+  border-radius:999px;
+  font-weight:800;
+  border:1px solid rgba(0,0,0,.14);
+}
+.btn.primary{
+  background:var(--ink);
+  color:#fff;
+  border-color:transparent;
+}
+.btn.whatsapp{
+  background:#25D366;
+  color:#0b1b10;
+  border-color:transparent;
+}
+.hero-visual{
+  background:var(--card);
+  border-radius:var(--radius);
+  padding:18px;
+  box-shadow:var(--shadow);
+  position:relative;
+  overflow:hidden;
+}
+.hero-visual img{
+  height:390px;
+  width:100%;
+  object-fit:cover;
+  border-radius:22px;
+}
+.hero-visual::before{
+  content:"";
+  position:absolute;
+  inset:-40px;
+  background:radial-gradient(55% 55% at 60% 40%, rgba(180,255,120,.35), transparent 70%);
+  filter:blur(30px);
+  z-index:0;
+}
+.hero-visual img{position:relative;z-index:1}
+
+/* ---------- Section Titles ---------- */
+.section-title{
+  font-size:40px;
+  margin-bottom:34px;
+}
+.section-title::after{
+  content:"";
+  display:block;
+  width:54px;
+  height:4px;
+  margin-top:14px;
+  border-radius:999px;
+  background:linear-gradient(90deg, #25D366, #b7ff5c);
+}
+
+/* ---------- Combined Menu Card (image + green panel as ONE component) ---------- */
+.menu-stack{
+  display:flex;
+  flex-direction:column;
+  gap:72px;
+}
+
+.combo{
+  position:relative;
+  display:grid;
+  grid-template-columns: 1fr 1.25fr;
+  align-items:center;
+  gap:0;
+}
+.combo.reverse{
+  grid-template-columns: 1.25fr 1fr;
+}
+.combo .media{
+  border-radius:26px;
+  overflow:hidden;
+  box-shadow:var(--shadow2);
+  background:#ddd;
+  height:420px;
+}
+.combo .media img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+.combo .panel{
+  background:var(--card);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  padding:34px 34px;
+  width:100%;
+  max-width:700px;
+  position:relative;
+  z-index:2;
+}
+
+/* overlap to match screenshots */
+.combo:not(.reverse) .panel{ margin-left:-70px; }
+.combo.reverse .panel{ margin-right:-70px; justify-self:end; }
+
+.panel h3{
+  font-size:20px;
+  margin-bottom:18px;
+}
+.items{
+  display:flex;
+  flex-direction:column;
+  gap:18px;
+}
+.item{
+  display:grid;
+  grid-template-columns: 60px 1fr;
+  gap:14px;
+  align-items:start;
+}
+.item .thumb{
+  width:60px;height:60px;
+  border-radius:999px;
+  overflow:hidden;
+  box-shadow:0 10px 20px rgba(0,0,0,.10);
+  border:3px solid rgba(255,255,255,.65);
+  background:#fff;
+}
+.item .thumb img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  background:#f1f1f1;
+}
+
+.item .price{
+  font-weight:900;
+  font-size:14px;
+  margin-bottom:2px;
+}
+.item .name{
+  font-weight:800;
+  margin-bottom:3px;
+}
+.item .desc{
+  font-size:13px;
+  color:rgba(0,0,0,.65);
+  max-width:520px;
+}
+
+/* ---------- Visit Us Cards ---------- */
+.visit-grid{
+  display:grid;
+  grid-template-columns: 1fr 1.25fr;
+  gap:28px;
+  align-items:stretch;
+}
+.map-card{
+  border-radius:26px;
+  overflow:hidden;
+  box-shadow:var(--shadow2);
+  background:#ddd;
+  min-height:340px;
+}
+.map-card iframe{
+  width:100%;
+  height:100%;
+  border:0;
+}
+.visit-panel{
+  background:var(--card);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  padding:34px;
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+}
+.visit-brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-weight:900;
+}
+.visit-brand .mark{
+  width:28px;height:28px;
+  border-radius:999px;
+  border:2px solid var(--ink);
+  display:grid;
+  place-items:center;
+}
+.visit-panel .welcome{
+  font-size:18px;
+  font-weight:800;
+}
+.visit-panel .mini{
+  font-size:14px;
+  color:rgba(0,0,0,.70);
+}
+.visit-panel .meta{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:10px;
+  margin-top:6px;
+}
+.visit-panel strong{display:block;margin-bottom:4px}
+
+/* ---------- Footer Big Card ---------- */
+.footer-wrap{
+  padding:40px 0 22px;
+}
+.footer-card{
+  max-width:1200px;
+  margin:0 auto;
+  background:var(--card);
+  border-radius:36px;
+  box-shadow:var(--shadow);
+  padding:38px 26px;
+}
+.footer-inner{
+  display:grid;
+  grid-template-columns: 1.1fr 1px 1fr;
+  gap:26px;
+  align-items:start;
+}
+.footer-divider{
+  background:rgba(0,0,0,.22);
+  width:1px;
+  height:100%;
+  min-height:190px;
+}
+.footer-left h3{
+  font-size:44px;
+  line-height:1.05;
+  margin:16px 0 20px;
+}
+.footer-brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-weight:900;
+}
+.footer-brand .mark{
+  width:28px;height:28px;
+  border-radius:999px;
+  border:2px solid var(--ink);
+  display:grid;
+  place-items:center;
+}
+.social{
+  display:flex;
+  gap:14px;
+  margin-top:18px;
+}
+.icon-btn{
+  width:46px;height:46px;
+  border-radius:999px;
+  display:grid;
+  place-items:center;
+  background:#fff;
+  box-shadow:0 14px 30px rgba(0,0,0,.10);
+  transition:transform .15s ease;
+}
+.icon-btn:active{transform:scale(.96)}
+.icon-btn svg{width:20px;height:20px}
+
+.footer-right{
+  font-size:14px;
+  color:rgba(0,0,0,.80);
+}
+.footer-right .block{margin-bottom:16px}
+.footer-right .label{font-weight:900;margin-bottom:6px;color:var(--ink)}
+.footer-right p{margin:0;color:rgba(0,0,0,.78)}
+.footer-bottom{
+  max-width:1200px;
+  margin:14px auto 0;
+  padding:0 20px;
+  text-align:left;
+  font-size:12px;
+  color:rgba(0,0,0,.55);
+}
+
+/* ---------- Scroll Reveal (moves upward) ---------- */
+.reveal{
+  opacity:0;
+  transform:translateY(24px);
+  transition:opacity .55s ease, transform .55s ease;
+  will-change:opacity, transform;
+}
+.reveal.show{
+  opacity:1;
+  transform:translateY(0);
+}
+
+/* ---------- Mobile ---------- */
+@media (max-width: 980px){
+  .hero{grid-template-columns:1fr;gap:28px}
+  .hero h1{font-size:38px}
+  .hero-visual img{height:320px}
+
+  .combo,
+  .combo.reverse{
+    grid-template-columns:1fr;
+  }
+  .combo .media{
+    height:310px;
+    border-radius:26px;
+  }
+  /* mobile: panel attached under image (same combined card) */
+  .combo .panel{
+    max-width:100%;
+    margin:0;
+    margin-top:-28px; /* attaches to image like your screenshot */
+    border-radius:28px;
+  }
+
+  .visit-grid{grid-template-columns:1fr}
+  .map-card{min-height:290px}
+
+  .footer-inner{
+    grid-template-columns:1fr;
+  }
+  .footer-divider{display:none}
+  .footer-left h3{font-size:34px}
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<div class="header-wrap">
+  <header>
+    <div class="brand">
+      <div class="brand-badge">≋</div>
+      Burger Haven
+    </div>
+  </header>
+</div>
+
+<!-- HERO -->
+<section class="container hero">
+  <div class="reveal show">
+    <h1>Bite into Happiness</h1>
+    <p>Fresh burgers, bold flavors, and comfort food made right.</p>
+    <div class="hero-actions">
+      <a class="btn whatsapp" href="https://wa.me/WHATSAPP_NUMBER" target="_blank">Contact on WhatsApp</a>
+      <a class="btn primary" href="#menu">Explore menu</a>
+    </div>
+  </div>
+
+  <div class="hero-visual reveal show">
+    <img src="images/hero-burger.jpg" alt="Burger Haven Hero">
+  </div>
+</section>
+
+<!-- MENU -->
+<section class="container" id="menu">
+  <h2 class="section-title reveal">Our Menu</h2>
+
+  <div class="menu-stack">
+
+    <!-- BURGERS -->
+    <div class="combo reveal">
+      <div class="media">
+        <img src="images/burgers-cover.jpg" alt="Burgers">
+      </div>
+
+      <div class="panel">
+        <h3>Burgers</h3>
+        <div class="items">
+
+          <div class="item">
+            <div class="thumb"><img src="images/burger-classic.jpg" onerror="this.src='images/placeholder.jpg'"></div>
+            <div>
+              <div class="price">$8.99</div>
+              <div class="name">Classic Burger</div>
+              <div class="desc">Juicy beef patty, fresh lettuce, tomatoes, onions, pickles, and our special house sauce.</div>
+            </div>
+          </div>
+
+          <div class="item">
+            <div class="thumb"><img src="images/burger-cheese.jpg" onerror="this.src='images/placeholder.jpg'"></div>
+            <div>
+              <div class="price">$8.99</div>
+              <div class="name">Cheese Burger</div>
+              <div class="desc">Juicy beef patty topped with melted cheddar cheese, fresh lettuce, tomatoes, onions, pickles, and ketchup on a toasted bun.</div>
+            </div>
+          </div>
+
+          <div class="item">
+            <div class="thumb"><img src="images/burger-bbq.jpg" onerror="this.src='images/placeholder.jpg'"></div>
+            <div>
+              <div class="price">$8.99</div>
+              <div class="name">Bacon BBQ Burger</div>
+              <div class="desc">Beef patty with crispy bacon, cheddar cheese, onion rings, BBQ sauce, lettuce, and tomatoes on a toasted bun.</div>
+            </div>
+          </div>
+
+          <div class="item">
+            <div class="thumb"><img src="images/burger-jalapeno.jpg" onerror="this.src='images/placeholder.jpg'"></div>
+            <div>
+              <div class="price">$10.49</div>
+              <div class="name">Spicy Jalapeño Burger</div>
+              <div class="desc">Spicy beef patty, pepper jack cheese, jalapeños, lettuce, tomatoes, and chipotle mayo on a toasted bun.</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- SIDES -->
+    <div class="combo reverse reveal">
+      <div class="panel">
+        <h3>Sides</h3>
+
+        <div class="items">
+          <div class="item">
+            <div class="thumb"><img src="images/side-fries.jpg" onerror="this.src='images/placeholder.jpg'"></div>
+            <div>
+              <div class="price">$2.99</div>
+              <div class="name">French Fries</div>
+              <div class="desc">Crispy golden fries.</div>
+            </div>
+          </div>
+
+          <div class="item">
+            <div class="thumb"><img src="images/side-sweet-potato.jpg" onerror="this.src='images/placeholder.jpg'"></div>
+            <div>
+              <div class="price">$3.99</div>
+              <div class="name">Sweet Potato Fries</div>
+              <div class="desc">Crispy golden fries.</div>
+            </div>
+          </div>
+
+          <div class="item">
+            <div class="thumb"><img src="images/side-onion-rings.jpg" onerror="this.src='images/placeholder.jpg'"></div>
+            <div>
+              <div class="price">$3.99</div>
+              <div class="name">Onion Rings</div>
+              <div class="desc">Crunchy onion rings served with ranch dipping sauce.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="media">
+        <img src="images/sides-cover.jpg" alt="Sides">
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+<section class="footer-wrap">
+  <div class="footer-card reveal">
+     <div class="footer-inner">
+      <div class="footer-left">
+        <div class="footer-brand">
+          <div class="mark">≋</div>
+          Burger Haven
+        </div>
+
+        <h3>Bite into Happiness</h3>
+
+        <div class="social">
+          <a class="icon-btn" href="https://instagram.com/INSTAGRAM_USERNAME" target="_blank" rel="noopener" aria-label="Instagram">
+            <!-- Instagram SVG -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="3" width="18" height="18" rx="5"></rect>
+              <circle cx="12" cy="12" r="3.5"></circle>
+              <circle cx="17.5" cy="6.5" r="1"></circle>
+            </svg>
+          </a>
+
+          <a class="icon-btn" href="https://wa.me/WHATSAPP_NUMBER" target="_blank" rel="noopener" aria-label="WhatsApp">
+            <!-- WhatsApp SVG -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M20 11.5a8.5 8.5 0 0 1-12.6 7.4L4 20l1.2-3.2A8.5 8.5 0 1 1 20 11.5Z"></path>
+              <path d="M9.3 9.2c.2-.5.4-.5.7-.5h.7c.2 0 .4 0 .5.3l.8 1.8c.1.2.1.4 0 .6l-.4.6c-.1.2-.1.4 0 .6.4.7 1.2 1.5 2 2 .2.1.4.1.6 0l.7-.4c.2-.1.4-.1.6 0l1.7.8c.3.1.3.3.3.5v.7c0 .3 0 .5-.5.7-.6.3-1.7.4-3.5-.4-2.1-.9-3.9-2.8-4.7-4.7-.8-1.8-.7-2.9-.4-3.5Z"></path>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="footer-divider"></div>
+
+      <div class="footer-right">
+        <div class="block">
+          <div class="label">Opening hours:</div>
+          <p>Mon – Thu: 11:00 AM – 9:00 PM</p>
+          <p>Fri – Sat: 11:00 AM – 10:00 PM</p>
+          <p>Sun: 12:00 PM – 8:00 PM</p>
+        </div>
+
+        <div class="block">
+          <div class="label">Phone:</div>
+          <p>(555) 987-6543</p>
+        </div>
+
+        <div class="block">
+          <div class="label">Location:</div>
+          <p>Burger Haven<br>123 Burger Lane<br>Food City, FC 12345</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bottom">© <span id="year"></span> Burger Haven</div>
+</section>
+
+    
+  </div>
+</section>
+
+<script>
+document.getElementById("year").textContent=new Date().getFullYear();
+const els=document.querySelectorAll(".reveal");
+const io=new IntersectionObserver(e=>{
+  e.forEach(x=>x.isIntersecting&&(x.target.classList.add("show"),io.unobserve(x.target)))
+},{threshold:.15});
+els.forEach(el=>io.observe(el));
+</script>
+
+</body>
+</html>
